@@ -13,18 +13,18 @@
           <mesh filename="package://atemr_description/meshes/tablet_support.dae" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
         <geometry>
           <mesh filename="package://atemr_description/meshes/tablet_support_col.stl" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
         <mass value="${model_mass}" />
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <inertia  ixx="0.284663364" ixy="-0.000064317" ixz="-0.026604817" iyy="0.285082897" iyz="0.000729986" izz="0.006824376" />
       </inertial>
     </link>

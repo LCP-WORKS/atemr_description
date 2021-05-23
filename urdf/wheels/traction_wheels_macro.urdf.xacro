@@ -17,10 +17,10 @@
         </geometry>
         <xacro:red_material/>
         <xacro:if value="${prefix == right_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+          <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
         </xacro:if>
         <xacro:if value="${prefix == left_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+          <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         </xacro:if>
       </visual>
       <collision>
@@ -29,19 +29,19 @@
         </geometry>
         <xacro:red_material/>
         <xacro:if value="${prefix == right_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+          <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
         </xacro:if>
         <xacro:if value="${prefix == left_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+          <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         </xacro:if>
       </collision>
       <inertial>
         <mass value="${wheel_mass}" />
         <xacro:if value="${prefix == right_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+          <origin xyz="0 0 0" rpy="${-pi/2} 0 0" />
         </xacro:if>
         <xacro:if value="${prefix == left_prefix}">
-          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+          <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         </xacro:if>
         <inertia  ixx="0.001684091" ixy="0.0" ixz="0.0" iyy="0.001684091" iyz="0.0" izy="0.0" izz="0.0" />
       </inertial>

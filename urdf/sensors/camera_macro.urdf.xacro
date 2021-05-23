@@ -13,18 +13,18 @@
           <mesh filename="package://atemr_description/meshes/realsense_camera.dae" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
         <geometry>
           <mesh filename="package://atemr_description/meshes/realsense_camera_col.stl" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </collision>
       <inertial>
         <mass value="${model_mass}" />
-        <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <inertia  ixx="0.000055654" ixy="0.000001199" ixz="-0.000000245" iyy="0.000012386" iyz="-0.000000057" izz="0.000062273" />
       </inertial>
     </link>
@@ -32,7 +32,7 @@
     <joint name="realsense_camera_joint" type="fixed">
       <parent link="base_link"/>
       <child link="realsense_camera"/>
-      <origin rpy="0 -0.383972 0" xyz="${x} ${y} ${z}"/>
+      <origin rpy="0 -0.186779 0" xyz="${x} ${y} ${z}"/>
     </joint>
   </xacro:macro>
 

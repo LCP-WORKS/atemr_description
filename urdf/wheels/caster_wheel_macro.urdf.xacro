@@ -13,18 +13,18 @@
           <mesh filename="package://atemr_description/meshes/caster.dae" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
       <collision>
         <geometry>
           <mesh filename="package://atemr_description/meshes/caster_col.stl" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0.02 0 -0.052" rpy="0 0 ${pi/2}" />
+        <origin xyz="0.02 0 -0.052" rpy="0 0 0" />
       </collision>
       <inertial>
         <mass value="${wheel_mass}" />
-        <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        <origin xyz="0 0 0" rpy="0 0 0" />
         <inertia  ixx="0.000102821" ixy="0.000000207" ixz="0.000033294" iyy="0.000117765" iyz="0.00000052" izz="0.000034887" />
       </inertial>
     </link>

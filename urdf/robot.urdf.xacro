@@ -12,32 +12,32 @@
   <!-- ############################CONFIG########################### -->
   <!-- BASE DIMENSIONS -->
   <!-- BASELINK PARAMS -->
-  <xacro:property name="mass" value="3.954"/>
+  <xacro:property name="mass" value="2.79657"/>
   <xacro:property name="base_link_origin">
     <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.002209 0.0405"/>
   </xacro:property>
   <!-- WHEELS PARAMS -->
   <xacro:property name="has_casters" value="1"/>
-  <xacro:property name="wheel_c_x" value="-0.13589"/>
+  <xacro:property name="wheel_c_x" value="-0.123589"/>
   <xacro:property name="wheel_c_y" value="0.0002"/>
   <xacro:property name="wheel_c_z" value="${-0.00199}"/>
-  <xacro:property name="wheel_l_x" value="0.07283"/>
+  <xacro:property name="wheel_l_x" value="0.060"/>
   <xacro:property name="wheel_l_y" value="0.1589"/>
-  <xacro:property name="wheel_l_z" value="0.026"/>
-  <xacro:property name="wheel_r_x" value="0.07283"/>
+  <xacro:property name="wheel_l_z" value="0.0696"/>
+  <xacro:property name="wheel_r_x" value="0.060"/>
   <xacro:property name="wheel_r_y" value="-0.1589"/>
-  <xacro:property name="wheel_r_z" value="0.026"/>
+  <xacro:property name="wheel_r_z" value="0.0696"/>
   <!-- EXTRAS PARAMS -->
-  <xacro:property name="support_x" value="-0.04478"/>
+  <xacro:property name="support_x" value="-0.08878"/>
   <xacro:property name="support_y" value="0.0"/>
-  <xacro:property name="support_z" value="0.084"/>
+  <xacro:property name="support_z" value="0.11584"/>
   <!-- SENSORS PARAMS -->
-  <xacro:property name="rplidar_x" value="0.00886"/>
-  <xacro:property name="rplidar_y" value="0.00249"/>
-  <xacro:property name="rplidar_z" value="0.169"/>
-  <xacro:property name="rs_cam_x" value="0.12779"/>
-  <xacro:property name="rs_cam_y" value="0.00025"/>
-  <xacro:property name="rs_cam_z" value="0.09029"/>
+  <xacro:property name="rplidar_x" value="-0.00592"/>
+  <xacro:property name="rplidar_y" value="0.0"/>
+  <xacro:property name="rplidar_z" value="0.192"/>
+  <xacro:property name="rs_cam_x" value="0.1093"/>
+  <xacro:property name="rs_cam_y" value="0.00131"/>
+  <xacro:property name="rs_cam_z" value="0.08439"/>
 
   <!-- ############################ENDCONFIG########################### -->
 
@@ -45,22 +45,22 @@
   <!-- CHASIS -->
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="0.0 0.0 ${-pi/2}"/>
+      <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
       <geometry>
         <mesh filename="package://atemr_description/meshes/base.dae" scale="1 1 1"/>
       </geometry>
       <xacro:cyan_material/>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0.0 0.0 ${-pi/2}"/>
+      <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
       <geometry>
         <mesh filename="package://atemr_description/meshes/base_col.stl" scale="1 1 1"/>
       </geometry>
     </collision>
     <inertial>
       <mass value="${mass}" />
-      <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
-      <inertia  ixx="0.051523618" ixy="-0.000245748" ixz="0.00165276" iyy="0.060081571" iyz="0.009700999" izz="0.077583265" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia  ixx="0.02493951" ixy="-0.00019788" ixz="-0.000468106" iyy="0.021408522" iyz="0.000079357" izz="0.033811057" />
     </inertial>
   </link>
   <joint name="base_footprint_joint" type="fixed">
@@ -84,7 +84,7 @@
     </inertial>
   </link>
   <joint name="battery_pack_joint" type="fixed">
-    <origin xyz="-0.04478 0 0.03523" rpy="0 0 0" />
+    <origin xyz="-0.07282 0.0 0.06079" rpy="0 0 0" />
     <parent link="base_link"/>
     <child link="battery_pack"/>
   </joint>
