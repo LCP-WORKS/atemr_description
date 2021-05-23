@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find atemr_description)/urdf/common/common.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/common/materials.urdf.xacro"/>
+
+  <xacro:property name="model_mass" value="0.072" />
+  <xacro:macro name="irs">
+
+    <link name="irs_front_l" />
+    <joint name="irs_front_l_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="irs_front_l"/>
+      <origin rpy="0 0.383972 0" xyz="0 0 0"/>
+    </joint>
+    <link name="irs_front_r" />
+    <joint name="irs_front_r_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="irs_front_r"/>
+      <origin rpy="0 0.383972 0" xyz="0 0 0"/>
+    </joint>
+    <link name="irs_rear" />
+    <joint name="irs_rear_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="irs_rear"/>
+      <origin rpy="0 0.383972 0" xyz="0 0 0"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

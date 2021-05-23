@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find atemr_description)/urdf/common/common.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/common/materials.urdf.xacro"/>
+
+  <xacro:property name="model_mass" value="0.190" />
+  <xacro:macro name="rplidar" params="x y z">
+
+    <link name="rplidar">
+      <visual>
+        <geometry>
+          <mesh filename="package://atemr_description/meshes/rplidar.dae" scale="1 1 1"/>
+        </geometry>
+        <xacro:red_material/>
+        <origin xyz="0 0 -0.032" rpy="0 0 ${-pi/2}" />
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://atemr_description/meshes/rplidar_col.stl" scale="1 1 1"/>
+        </geometry>
+        <xacro:red_material/>
+        <origin xyz="0 0 -0.032" rpy="0 0 ${-pi/2}" />
+      </collision>
+      <inertial>
+        <mass value="${model_mass}" />
+        <origin xyz="0 0 -0.032" rpy="0 0 ${-pi/2}" />
+        <inertia  ixx="0.000120247" ixy="0.000000595" ixz="0.000002707" iyy="0.000119098" iyz="0.000005916" izz="0.000128464" />
+      </inertial>
+    </link>
+
+    <joint name="rplidar_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="rplidar"/>
+      <origin rpy="0 0 0" xyz="${x} ${y} ${z}"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

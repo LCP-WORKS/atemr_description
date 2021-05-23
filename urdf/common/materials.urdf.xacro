@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="white_material">
+    <material name="white">
+      <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+  </xacro:macro>
+  
+  <xacro:macro name="cyan_material">
+    <material name="cyan">
+      <color rgba="0.0 0.65 1.0 1.0"/>
+    </material>
+  </xacro:macro>
+  
+  <xacro:macro name="blue_material">
+    <material name="blue">
+      <color rgba="0.0 0.0 0.8 0.5"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="black_material">
+    <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="black_material">
+    <material name="black">
+      <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="navajo_white_material">
+    <material name="navajo_white">
+      <color rgba="1.0 0.87 0.68 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="red_material">
+    <material name="red">
+      <color rgba="1.0 0.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="green_material">
+    <material name="green">
+      <color rgba="0.0 1.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+ 
+  <xacro:macro name="light_blue_mat">
+    <material name="light_blue_mat">
+      <color rgba="0.0 0.65 1.0 0.2"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="light_gray">
+    <material name="light_gray">
+      <color rgba="0.7 0.7 0.7 0.8"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="yellow_material">
+    <material name="yellow_material">
+      <color rgba="1.0 1.0 0.0 1.0"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="yellow_material_abs">
+    <material name="yellow_material_abs">
+      <color rgba="1.0 1.0 0.0 0.5"/>
+    </material>
+  </xacro:macro>
+  <xacro:macro name="light_yellow_mat">
+    <material name="light_yellow_mat">
+      <color rgba="0.957 0.933 0.259 0.5"/>
+    </material>
+  </xacro:macro>
+
+
+
+</robot>

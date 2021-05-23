@@ -1,0 +1,110 @@
+<?xml version="1.0" ?>
+<robot name="atemr" xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Included files-->
+  <xacro:include filename="$(find atemr_description)/urdf/wheels/traction_wheels_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/wheels/caster_wheel_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/extras/support_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/sensors/rplidar_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/sensors/camera_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/sensors/irs_macro.urdf.xacro"/>
+
+  <!-- Robot properties -->
+  <!-- ############################CONFIG########################### -->
+  <!-- BASE DIMENSIONS -->
+  <!-- BASELINK PARAMS -->
+  <xacro:property name="mass" value="3.954"/>
+  <xacro:property name="base_link_origin">
+    <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.002209 0.0405"/>
+  </xacro:property>
+  <!-- WHEELS PARAMS -->
+  <xacro:property name="has_casters" value="1"/>
+  <xacro:property name="wheel_c_x" value="-0.13589"/>
+  <xacro:property name="wheel_c_y" value="0.0002"/>
+  <xacro:property name="wheel_c_z" value="${-0.00199}"/>
+  <xacro:property name="wheel_l_x" value="0.07283"/>
+  <xacro:property name="wheel_l_y" value="0.1589"/>
+  <xacro:property name="wheel_l_z" value="0.026"/>
+  <xacro:property name="wheel_r_x" value="0.07283"/>
+  <xacro:property name="wheel_r_y" value="-0.1589"/>
+  <xacro:property name="wheel_r_z" value="0.026"/>
+  <!-- EXTRAS PARAMS -->
+  <xacro:property name="support_x" value="-0.04478"/>
+  <xacro:property name="support_y" value="0.0"/>
+  <xacro:property name="support_z" value="0.084"/>
+  <!-- SENSORS PARAMS -->
+  <xacro:property name="rplidar_x" value="0.00886"/>
+  <xacro:property name="rplidar_y" value="0.00249"/>
+  <xacro:property name="rplidar_z" value="0.169"/>
+  <xacro:property name="rs_cam_x" value="0.12779"/>
+  <xacro:property name="rs_cam_y" value="0.00025"/>
+  <xacro:property name="rs_cam_z" value="0.09029"/>
+
+  <!-- ############################ENDCONFIG########################### -->
+
+  <link name="base_footprint"/>
+  <!-- CHASIS -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0.0 0.0 ${-pi/2}"/>
+      <geometry>
+        <mesh filename="package://atemr_description/meshes/base.dae" scale="1 1 1"/>
+      </geometry>
+      <xacro:cyan_material/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0.0 0.0 ${-pi/2}"/>
+      <geometry>
+        <mesh filename="package://atemr_description/meshes/base_col.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass}" />
+      <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+      <inertia  ixx="0.051523618" ixy="-0.000245748" ixz="0.00165276" iyy="0.060081571" iyz="0.009700999" izz="0.077583265" />
+    </inertial>
+  </link>
+  <joint name="base_footprint_joint" type="fixed">
+    <xacro:insert_block name="base_link_origin"/>
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+  </joint>
+
+  <link name="battery_pack">
+    <visual>
+      <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://atemr_description/meshes/battery.dae" scale="1 1 1"/>
+      </geometry>
+      <xacro:cyan_material/>
+    </visual>
+    <inertial>
+      <mass value="1.4" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <inertia  ixx="0.002417057" ixy="0.0" ixz="0.0" iyy="0.002108361" iyz="0.0" izz="0.003385828" />
+    </inertial>
+  </link>
+  <joint name="battery_pack_joint" type="fixed">
+    <origin xyz="-0.04478 0 0.03523" rpy="0 0 0" />
+    <parent link="base_link"/>
+    <child link="battery_pack"/>
+  </joint>
+
+  <!-- WHEELS -->
+  <xacro:if value="${has_casters == 1}">
+    <xacro:caster_wheel x="${wheel_c_x}" y="${wheel_c_y}" z="${wheel_c_z}" />
+  </xacro:if>
+  <xacro:traction_wheel prefix="left" x="${wheel_l_x}" y="${wheel_l_y}" z="${wheel_l_z}" />
+  <xacro:traction_wheel prefix="right" x="${wheel_r_x}" y="${wheel_r_y}" z="${wheel_r_z}" />
+  <!-- EXTRAS -->
+  <xacro:support x="${support_x}" y="${support_y}" z="${support_z}" />
+  <!-- SENSORS -->
+  <xacro:rplidar x="${rplidar_x}" y="${rplidar_y}" z="${rplidar_z}" />
+  <xacro:realsense_camera x="${rs_cam_x}" y="${rs_cam_y}" z="${rs_cam_z}" />
+  <xacro:irs />
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_contol.so">
+    </plugin>
+  </gazebo>
+
+</robot>

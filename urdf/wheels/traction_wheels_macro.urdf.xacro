@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find atemr_description)/urdf/common/common.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/common/materials.urdf.xacro"/>
+
+  <xacro:property name="right_prefix" value="right" />
+  <xacro:property name="left_prefix" value="left" />
+  <xacro:property name="wheel_mass" value="1" />
+
+  <xacro:macro name="traction_wheel" params="prefix x y z">
+
+    <link name="${prefix}_wheel">
+      <visual>
+        <geometry>
+          <mesh filename="package://atemr_description/meshes/wheel.dae" scale="1 1 1"/>
+        </geometry>
+        <xacro:red_material/>
+        <xacro:if value="${prefix == right_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        </xacro:if>
+        <xacro:if value="${prefix == left_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        </xacro:if>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://atemr_description/meshes/wheel_col.stl" scale="1 1 1"/>
+        </geometry>
+        <xacro:red_material/>
+        <xacro:if value="${prefix == right_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        </xacro:if>
+        <xacro:if value="${prefix == left_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        </xacro:if>
+      </collision>
+      <inertial>
+        <mass value="${wheel_mass}" />
+        <xacro:if value="${prefix == right_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${-pi/2}" />
+        </xacro:if>
+        <xacro:if value="${prefix == left_prefix}">
+          <origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+        </xacro:if>
+        <inertia  ixx="0.001684091" ixy="0.0" ixz="0.0" iyy="0.001684091" iyz="0.0" izy="0.0" izz="0.0" />
+      </inertial>
+    </link>
+
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <axis xyz="0 1 0"/>
+      <child link="${prefix}_wheel"/>
+      <origin rpy="0 0 0" xyz="${x} ${y} ${z}"/>
+    </joint>
+
+
+    <!-- GAZEBO -->
+
+    <transmission name="${prefix}_wheel_transmission">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}_wheel_joint">
+        <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}_motor">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+
+</robot>

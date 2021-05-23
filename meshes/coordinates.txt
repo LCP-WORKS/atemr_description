@@ -1,0 +1,76 @@
+baselink: 
+	x: -211.37
+	y: 22.09
+	z:	-40.5
+	3954.06g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 51523618.30	Ixy = -245747.68	Ixz = 1652759.84
+	Iyx = -245747.68	Iyy = 60081570.89	Iyz = 9700998.59
+	Izx = 1652759.84	Izy = 9700998.59	Izz = 77583265.40
+
+wheel -> baselink:
+	x: 72.83
+	y: 158.9
+	z: 26
+	1000g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 1684090.97	Ixy = 0.00	Ixz = 0.00
+	Iyx = 0.00	Iyy = 1684090.97	Iyz = 0.00
+	Izx = 0.00	Izy = 0.00	Izz = 0.00
+
+rplidar -> baselink:
+	x: 48.86
+	y: 2.49
+	z:	169
+	190g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 120247.0810	Ixy = 595.2038	Ixz = 2707.3137
+	Iyx = 595.2038	Iyy = 119097.6542	Iyz = 5916.2817
+	Izx = 2707.3137	Izy = 5916.2817	Izz = 128463.5073
+
+camera -> baselink:
+	x: 167.79
+	y: 0.25
+	z: 90.29
+	72g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 55653.6375	Ixy = 1199.3392	Ixz = -244.9566
+	Iyx = 1199.3392	Iyy = 12386.1609	Iyz = -57.2633
+	Izx = -244.9566	Izy = -57.2633	Izz = 62272.9404
+	
+tablet-support -> baselink:
+	x: -44.78
+	y:	0.0
+	z:	84
+	744.53g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 284663363.91	Ixy = -64316.77	Ixz = -26604816.66
+	Iyx = -64316.77	Iyy = 285082896.70	Iyz = 729985.51
+	Izx = -26604816.66	Izy = 729985.51	Izz = 6824376.28
+
+battery-pack -> baselink:
+	x: -73.78
+	y: 0.0
+	z: 35.23
+	1400g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 2417057.2351	Ixy = 0.0000	Ixz = 0.0000
+	Iyx = 0.0000	Iyy = 2108361.0044	Iyz = 0.0000
+	Izx = 0.0000	Izy = 0.0000	Izz = 3385828.4299
+	
+caster -> baselink:
+	x: -102.89
+	y: 0.02
+	z: -1.99
+	50g
+	Moments of inertia: ( grams *  square millimeters )
+	Taken at the output coordinate system.
+	Ixx = 102821.43	Ixy = 207.06	Ixz = 33294.4
+	Iyx = 207.06	Iyy = 117764.82	Iyz = 519.52
+	Izx = 33294.4	Izy = 519.52	Izz = 34887.38
