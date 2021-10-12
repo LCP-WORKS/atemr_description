@@ -7,12 +7,14 @@
   <xacro:include filename="$(find atemr_description)/urdf/sensors/rplidar_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/sensors/camera_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/sensors/irs_macro.urdf.xacro"/>
+  <xacro:include filename="$(find atemr_description)/urdf/sensors/imu_macro.urdf.xacro"/>
 
   <!-- Robot properties -->
+  <xacro:property name="robot" value="atemr" />
   <!-- ############################CONFIG########################### -->
   <!-- BASE DIMENSIONS -->
   <!-- BASELINK PARAMS -->
-  <xacro:property name="mass" value="2.79657"/>
+  <xacro:property name="mass" value="3.0"/>
   <xacro:property name="base_link_origin">
     <origin rpy="0.0 0.0 0.0" xyz="0.0 -0.002209 0.0405"/>
   </xacro:property>
@@ -38,6 +40,9 @@
   <xacro:property name="rs_cam_x" value="0.1093"/>
   <xacro:property name="rs_cam_y" value="0.00131"/>
   <xacro:property name="rs_cam_z" value="0.08439"/>
+  <xacro:property name="imu_x" value="-0.00592"/> <!-- experimental value -->
+  <xacro:property name="imu_y" value="0.0"/> <!-- experimental value -->
+  <xacro:property name="imu_z" value="0.13"/> <!-- experimental value -->
 
   <!-- ############################ENDCONFIG########################### -->
 
@@ -60,7 +65,9 @@
     <inertial>
       <mass value="${mass}" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <inertia  ixx="0.02493951" ixy="-0.00019788" ixz="-0.000468106" iyy="0.021408522" iyz="0.000079357" izz="0.033811057" />
+      <!--inertia  ixx="0.02493951" ixy="-0.00019788" ixz="-0.000468106" iyy="0.021408522" iyz="0.000079357" izz="0.033811057" /-->
+      <!--inertia  ixx="-0.048396" ixy="-0.411441" ixz="0.910151" iyy="-0.910064" iyz="-0.413155" izz="0.030477" /-->
+      <inertia  ixx="0.0006826666666666668" ixy="0.0" ixz="0.0" iyy="0.0004166666666666667" iyz="0.0" izz="0.0" />
     </inertial>
   </link>
   <joint name="base_footprint_joint" type="fixed">
@@ -73,14 +80,15 @@
     <visual>
       <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="package://atemr_description/meshes/battery.dae" scale="1 1 1"/>
+        <mesh filename="package://atemr_description/meshes/battery.stl" scale="1 1 1"/>
       </geometry>
       <xacro:cyan_material/>
     </visual>
     <inertial>
       <mass value="1.4" />
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <inertia  ixx="0.002417057" ixy="0.0" ixz="0.0" iyy="0.002108361" iyz="0.0" izz="0.003385828" />
+      <!--inertia  ixx="0.002417057" ixy="0.0" ixz="0.0" iyy="0.002108361" iyz="0.0" izz="0.003385828" /-->
+      <inertia  ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
     </inertial>
   </link>
   <joint name="battery_pack_joint" type="fixed">
@@ -101,10 +109,289 @@
   <xacro:rplidar x="${rplidar_x}" y="${rplidar_y}" z="${rplidar_z}" />
   <xacro:realsense_camera x="${rs_cam_x}" y="${rs_cam_y}" z="${rs_cam_z}" />
   <xacro:irs />
+  <xacro:wt901_imu_sensor x="${imu_x}" y="${imu_y}" z="${imu_z}" />
 
+  <!--gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/${robot}</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo-->
+  
+  <gazebo reference="left_wheel">
+    <mu1>1</mu1>
+    <mu2>1</mu2>
+    <slip1>0.0</slip1>
+    <slip2>0.0</slip2>
+    <kp>5000000.0</kp>
+    <kd>5000000.0</kd>
+    <minDepth>0.00</minDepth>
+    <maxVel>1000</maxVel>
+    <fdir1>1 0 0</fdir1>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+  <gazebo reference="right_wheel">
+    <mu1>1</mu1>
+    <mu2>1</mu2>
+    <slip1>0.0</slip1>
+    <slip2>0.0</slip2>
+    <kp>5000000.0</kp>
+    <kd>5000000.0</kd>
+    <minDepth>0.00</minDepth>
+    <maxVel>1000</maxVel>
+    <fdir1>1 0 0</fdir1>
+    <material>Gazebo/FlatBlack</material>
+  </gazebo>
+
+  <gazebo reference="caster_wheel">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <slip1>0.9</slip1>
+    <slip2>0.5</slip2>
+    <kp>300000.0</kp>
+    <kd>300000.0</kd>
+    <minDepth>0.0001</minDepth>
+    <maxVel>0</maxVel>
+    <fdir1>1 0 0</fdir1>
+    <material>Gazebo/Red</material>
+  </gazebo>
+  
   <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_contol.so">
+  	<!--MOTOR CONTROLLER gazebo-->
+    <plugin name="atemr_base_controller" filename="libgazebo_ros_diff_drive.so">
+      <!--robotNamespace>/${robot}</robotNamespace-->
+      <updateRate>50</updateRate>
+      <alwaysOn>true</alwaysOn>
+      <leftJoint>left_wheel_joint</leftJoint>
+      <rightJoint>right_wheel_joint</rightJoint>
+      <wheelSeparation>0.318</wheelSeparation>
+      <wheelDiameter>0.108</wheelDiameter>
+      <wheelAcceleration>1.0</wheelAcceleration>
+      <wheelTorque>1.0</wheelTorque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <odometrySource>world</odometrySource>
+      <publishWheelTF>false</publishWheelTF>
+      <publishWheelJointState>true</publishWheelJointState>
+      <publishOdomTF>true</publishOdomTF>
+      <publishTf>true</publishTf>
+      <legacyMode>false</legacyMode>
+      <rosDebugLevel>na</rosDebugLevel>
     </plugin>
   </gazebo>
+  
+  <!--IMU gazebo-->
+	<gazebo reference="wt901_imu">
+		<gravity>true</gravity>
+		<sensor name="imu_sensor" type="imu">
+		    <always_on>true</always_on>
+		    <update_rate>30</update_rate>
+				<visualize>false</visualize>
+		    <topic>__default_topic__</topic>
+		    <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+				  <topicName>/${robot}/imu/data_raw</topicName>
+		      <bodyName>wt901_imu</bodyName>
+		      <updateRateHZ>0.0</updateRateHZ>
+		      <gaussianNoise>${0.0017*0.0017}</gaussianNoise>
+		      <xyzOffset>0 0 0</xyzOffset>
+		      <rpyOffset>0 0 0</rpyOffset>
+		      <frameName>wt901_imu</frameName>
+		    </plugin>
+		    <pose>0 0 0 0 0 0</pose>
+		  </sensor>
+	</gazebo>
+	<!--IR Sensors gazebo-->
+	<gazebo reference="irs_front_l">
+	 <sensor type="ray" name="TeraRangerLeft">
+	    <pose>0 0 0 0 0 0</pose>
+			<visualize>true</visualize>
+			<update_rate>20</update_rate>
+			<ray>
+			   <scan>
+				    <horizontal>
+						   <samples>10</samples>
+							 <resolution>1</resolution>
+							 <min_angle>-0.0698132</min_angle>
+							 <max_angle>0.0698132</max_angle>
+						</horizontal>
+						<vertical>
+						   <samples>10</samples>
+							 <resolution>1</resolution>
+							 <min_angle>-0.0698132</min_angle>
+							 <max_angle>0.0698132</max_angle>
+						</vertical>
+				 </scan>
+				 <range>
+				    <min>0.04</min>
+						<max>0.3</max>
+						<resolution>0.02</resolution>
+				 </range>
+			</ray>
+			<plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+			   <gaussianNoise>0.005</gaussianNoise>
+				 <alwaysOn>true</alwaysOn>
+				 <updateRate>20</updateRate>
+				 <topicName>irs_front/left</topicName>
+				 <frameName>irs_front_l</frameName>
+				 <radiation>INFRARED</radiation>
+				 <fov>0.2967</fov>
+			</plugin>
+		</sensor>
+	</gazebo>
+	<gazebo reference="irs_front_r">
+	  <sensor type="ray" name="TeraRangerRight">
+		   <pose>0 0 0 0 0 0</pose>
+			 <visualize>true</visualize>
+			 <update_rate>20</update_rate>
+			 <ray>
+			    <scan>
+					   <horizontal>
+						    <samples>10</samples>
+								<resolution>1</resolution>
+								<min_angle>-0.0698132</min_angle>
+								<max_angle>0.0698132</max_angle>
+						 </horizontal>
+						 <vertical>
+						    <samples>10</samples>
+								<resolution>1</resolution>
+								<min_angle>-0.0698132</min_angle>
+								<max_angle>0.0698132</max_angle>
+						 </vertical>
+					</scan>
+					<range>
+					   <min>0.04</min>
+						 <max>0.3</max>
+						 <resolution>0.02</resolution>
+					</range>
+			 </ray>
+			 <plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+			    <gaussianNoise>0.005</gaussianNoise>
+					<alwaysOn>true</alwaysOn>
+					<updateRate>20</updateRate>
+					<topicName>irs_front/right</topicName>
+					<frameName>irs_front_r</frameName>
+					<radiation>INFRARED</radiation>
+					<fov>0.2967</fov>
+			 </plugin>
+		 </sensor>
+	</gazebo>
+	<gazebo reference="irs_rear">
+	  <sensor type="ray" name="TeraRangerRear">
+		    <pose>0 0 0 0 0 0</pose>
+				<visualize>true</visualize>
+				<update_rate>20</update_rate>
+				<ray>
+				   <scan>
+					    <horizontal>
+							   <samples>10</samples>
+								 <resolution>1</resolution>
+								 <min_angle>-0.0698132</min_angle>
+								 <max_angle>0.0698132</max_angle>
+							</horizontal>
+							<vertical>
+							   <samples>10</samples>
+								 <resolution>1</resolution>
+								 <min_angle>-0.0698132</min_angle>
+								 <max_angle>0.0698132</max_angle>
+							</vertical>
+					 </scan>
+					 <range>
+					    <min>0.04</min>
+							<max>0.3</max>
+							<resolution>0.02</resolution>
+					 </range>
+				</ray>
+				<plugin filename="libgazebo_ros_range.so" name="gazebo_ros_range">
+				   <gaussianNoise>0.005</gaussianNoise>
+					 <alwaysOn>true</alwaysOn>
+					 <updateRate>20</updateRate>
+					 <topicName>irs_rear/center</topicName>
+					 <frameName>irs_rear</frameName>
+					 <radiation>INFRARED</radiation>
+					 <fov>0.2967</fov>
+				</plugin>
+			</sensor>
+	</gazebo>
+	<!--RPLIDAR Sensors gazebo-->
+	<gazebo reference="rplidar">
+	  <sensor type="ray" name="rplidar_sensor">
+		  <pose>0 0 0 0 0 0</pose>
+			<visualize>false</visualize>
+			<update_rate>10</update_rate>
+			<ray>
+			  <scan>
+				  <horizontal>
+					  <samples>720</samples>
+						<resolution>0.9</resolution>
+						<min_angle>0.0</min_angle>
+						<max_angle>6.28319</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+				  <min>0.085</min>
+					<max>6.0</max>
+					<resolution>0.01</resolution>
+				</range>
+				<noise>
+				  <type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			<plugin name="gazebo_rplidar_controller" filename="libgazebo_ros_laser.so">
+			  <topicName>/${robot}/laser/scan</topicName>
+				<frameName>rplidar</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+	<!--REALENSE CAMERA Sensor gazebo-->
+	<gazebo reference="realsense_camera">
+	  <sensor type="depth" name="rs_cam">
+		  <update_rate>20.0</update_rate>
+			<camera name="headcamera">
+			  <!--horizontal_fov>1.22173</horizontal_fov-->
+				<image>
+				  <width>480</width>
+					<height>270</height>
+					<format>R8G8B8</format>
+				</image>
+				<clip>
+				  <near>0.05</near>
+					<far>30</far>
+				</clip>
+				<noise>
+				  <type>gaussian</type>
+					<mean>0.0</mean>
+					<stddev>0.003</stddev>
+				</noise>
+			</camera>
+			<plugin name="kinect" filename="libgazebo_ros_openni_kinect.so">
+			  <baseline>0.055</baseline>
+				<alwaysOn>true</alwaysOn>
+				<updateRate>0.0</updateRate>
+				<cameraName>rs_cam_ir</cameraName>
+				<imageTopicName>/${robot}/rs_cam/color/image_raw</imageTopicName>
+				<cameraInfoTopicName>/${robot}/rs_cam/color/camera_info</cameraInfoTopicName>
+				<depthImageTopicName>/${robot}/rs_cam/depth/image_raw</depthImageTopicName>
+				<depthImageCameraInfoTopicName>/${robot}/rs_cam/depth/camera_info</depthImageCameraInfoTopicName>
+				<pointCloudTopicName>/${robot}/rs_cam/depth/points</pointCloudTopicName>
+				<frameName>realsense_camera</frameName>
+				<pointCloudCutoff>0.5</pointCloudCutoff>
+				<pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+				<distortionK1>0</distortionK1>
+				<distortionK2>0</distortionK2>
+				<distortionK3>0</distortionK3>
+				<distortionT1>0</distortionT1>
+				<distortionT2>0</distortionT2>
+				<CxPrime>0</CxPrime>
+				<Cx>0</Cx>
+				<Cy>0</Cy>
+				<!--focalLength>0.00188</focalLength-->
+				<hackBaseline>0</hackBaseline>
+			</plugin>
+		</sensor>
+	</gazebo>
 
 </robot>

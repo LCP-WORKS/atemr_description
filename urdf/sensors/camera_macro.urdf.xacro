@@ -15,17 +15,18 @@
         <xacro:red_material/>
         <origin xyz="0 0 0" rpy="0 0 0" />
       </visual>
-      <collision>
+      <!--collision>
         <geometry>
           <mesh filename="package://atemr_description/meshes/realsense_camera_col.stl" scale="1 1 1"/>
         </geometry>
         <xacro:red_material/>
         <origin xyz="0 0 0" rpy="0 0 0" />
-      </collision>
+      </collision-->
       <inertial>
         <mass value="${model_mass}" />
         <origin xyz="0 0 0" rpy="0 0 0" />
-        <inertia  ixx="0.000055654" ixy="0.000001199" ixz="-0.000000245" iyy="0.000012386" iyz="-0.000000057" izz="0.000062273" />
+        <!--inertia  ixx="0.000055654" ixy="0.000001199" ixz="-0.000000245" iyy="0.000012386" iyz="-0.000000057" izz="0.000062273" /-->
+        <inertia  ixx="-0.016022" ixy="-0.001895" ixz="0.999870" iyy="0.070689" iyz="0.016116" izz="-0.000758" />
       </inertial>
     </link>
 

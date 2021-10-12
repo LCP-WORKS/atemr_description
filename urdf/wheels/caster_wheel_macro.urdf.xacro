@@ -17,15 +17,16 @@
       </visual>
       <collision>
         <geometry>
-          <mesh filename="package://atemr_description/meshes/caster_col.stl" scale="1 1 1"/>
+          <sphere radius="0.02" />
         </geometry>
         <xacro:red_material/>
-        <origin xyz="0.02 0 -0.052" rpy="0 0 0" />
+        <origin xyz="-0.02 0 -0.02" rpy="0 0 0" />
       </collision>
       <inertial>
         <mass value="${wheel_mass}" />
-        <origin xyz="0 0 0" rpy="0 0 0" />
-        <inertia  ixx="0.000102821" ixy="0.000000207" ixz="0.000033294" iyy="0.000117765" iyz="0.00000052" izz="0.000034887" />
+        <origin xyz="-0.02 0 -0.02" rpy="0 0 0" />
+        <!--inertia  ixx="0.000102821" ixy="0.000000207" ixz="0.000033294" iyy="0.000117765" iyz="0.00000052" izz="0.000034887" /-->
+        <inertia  ixx="0.0000001256637" ixy="0.0" ixz="0.0" iyy="0.0000001256637" iyz="0.0" izz="0.0000001256637" />
       </inertial>
     </link>
 
