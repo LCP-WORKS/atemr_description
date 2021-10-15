@@ -371,13 +371,13 @@
 			  <baseline>0.055</baseline>
 				<alwaysOn>true</alwaysOn>
 				<updateRate>0.0</updateRate>
-				<cameraName>rs_cam_ir</cameraName>
+				<cameraName>headcamera</cameraName>
 				<imageTopicName>/${robot}/rs_cam/color/image_raw</imageTopicName>
 				<cameraInfoTopicName>/${robot}/rs_cam/color/camera_info</cameraInfoTopicName>
 				<depthImageTopicName>/${robot}/rs_cam/depth/image_raw</depthImageTopicName>
 				<depthImageCameraInfoTopicName>/${robot}/rs_cam/depth/camera_info</depthImageCameraInfoTopicName>
 				<pointCloudTopicName>/${robot}/rs_cam/depth/points</pointCloudTopicName>
-				<frameName>realsense_camera</frameName>
+				<frameName>realsense_depth_camera</frameName>
 				<pointCloudCutoff>0.5</pointCloudCutoff>
 				<pointCloudCutoffMax>3.0</pointCloudCutoffMax>
 				<distortionK1>0</distortionK1>
