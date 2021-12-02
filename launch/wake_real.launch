@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Run robot base | description | dbus | sensors -->
+  <include file="$(find atemr_hardware)/launch/base_w_extras.launch" />
+  <!-- Run scan filters -->
+  <include file="$(find atemr_nav)/launch/cam_to_scan.launch" />
+  <include file="$(find atemr_nav)/launch/scan_filter.launch" />
+  <!-- Run sensor fusion -->
+  <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+    <arg name="time" value="2"/>
+    <arg name="pkg" value="atemr_localization"/>
+    <arg name="file" value="rloc_full.launch"/>
+  </include>
+
+</launch>

@@ -6,7 +6,7 @@
 
   <xacro:property name="right_prefix" value="right" />
   <xacro:property name="left_prefix" value="left" />
-  <xacro:property name="wheel_mass" value="1" />
+  <xacro:property name="wheel_mass" value="0.5" />
 
   <xacro:macro name="traction_wheel" params="prefix x y z">
     <link name="${prefix}_wheel">

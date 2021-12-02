@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Run gazebo simulation -->
+  <include file="$(find atemr_simulation)/launch/atemr_world.launch" />
+  <!-- Run scan filters -->
+  <include file="$(find atemr_nav)/launch/cam_to_scan.launch" />
+  <include file="$(find atemr_nav)/launch/scan_filter.launch" />
+  <!-- Run sensor fusion -->
+  <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+    <arg name="time" value="2"/>
+    <arg name="pkg" value="atemr_localization"/>
+    <arg name="file" value="rloc_full.launch"/>
+  </include>
+
+  <!-- Run teleoperation node -->
+  <!--include file="$(find atemr_control)/launch/teleop_kb.launch" /-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find atemr_description)/rviz/atemr_nav.rviz"/>
+
+</launch>
