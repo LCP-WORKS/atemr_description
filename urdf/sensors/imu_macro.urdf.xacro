@@ -3,7 +3,7 @@
   <xacro:include filename="$(find atemr_description)/urdf/common/common.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/common/materials.urdf.xacro"/>
 
-  <xacro:property name="model_mass" value="0.050" />
+  <xacro:property name="model_mass" value="0.010" />
   <xacro:macro name="wt901_imu_sensor" params="x y z">
 
     <link name="wt901_imu" />
@@ -11,7 +11,7 @@
     <joint name="wt901_imu_joint" type="fixed">
       <parent link="base_link"/>
       <child link="wt901_imu"/>
-      <origin rpy="0 0 0" xyz="${x} ${y} ${z}"/>
+      <origin rpy="0 0 ${-pi/2}" xyz="${x} ${y} ${z}"/>
     </joint>
   </xacro:macro>
 
