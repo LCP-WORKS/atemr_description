@@ -5,12 +5,13 @@
   <xacro:include filename="$(find atemr_description)/urdf/wheels/caster_wheel_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/extras/support_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/sensors/rplidar_macro.urdf.xacro"/>
-  <xacro:include filename="$(find atemr_description)/urdf/sensors/camera_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/sensors/irs_macro.urdf.xacro"/>
   <xacro:include filename="$(find atemr_description)/urdf/sensors/imu_macro.urdf.xacro"/>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d415.urdf.xacro" />
 
   <!-- Robot properties -->
   <xacro:property name="robot" value="" />
+  <xacro:property name="camera_name" value="camera" />
   <!-- ############################CONFIG########################### -->
   <!-- BASE DIMENSIONS -->
   <!-- BASELINK PARAMS -->
@@ -37,9 +38,14 @@
   <xacro:property name="rplidar_x" value="-0.00592"/>
   <xacro:property name="rplidar_y" value="0.0"/>
   <xacro:property name="rplidar_z" value="0.192"/>
-  <xacro:property name="rs_cam_x" value="0.1093"/>
+
+  <xacro:arg name="use_nominal_extrinsics" default="true" />
+  <xacro:arg name="add_plug" default="false" />
+  <xacro:arg name="use_mesh" default="true" />
+  <xacro:property name="rs_cam_x" value="0.1255"/>
   <xacro:property name="rs_cam_y" value="0.00131"/>
-  <xacro:property name="rs_cam_z" value="0.08439"/>
+  <xacro:property name="rs_cam_z" value="0.07310"/>
+
   <xacro:property name="imu_x" value="${rplidar_x + 0.0257}"/> <!-- experimental value -->
   <xacro:property name="imu_y" value="${rplidar_y + 0.0065}"/> <!-- experimental value -->
   <xacro:property name="imu_z" value="0.1115"/> <!-- experimental value -->
@@ -107,7 +113,9 @@
   <xacro:support x="${support_x}" y="${support_y}" z="${support_z}" />
   <!-- SENSORS -->
   <xacro:rplidar x="${rplidar_x}" y="${rplidar_y}" z="${rplidar_z}" />
-  <xacro:realsense_camera x="${rs_cam_x}" y="${rs_cam_y}" z="${rs_cam_z}" />
+  <xacro:sensor_d415 parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)" add_plug="$(arg add_plug)" use_mesh="$(arg use_mesh)">
+    <origin xyz="${rs_cam_x} ${rs_cam_y} ${rs_cam_z}" rpy="0.0 -0.3054326 0.0"/> -0.186779
+  </xacro:sensor_d415>
   <xacro:irs />
   <xacro:wt901_imu_sensor x="${imu_x}" y="${imu_y}" z="${imu_z}" />
 
@@ -158,7 +166,7 @@
   
   <gazebo>
   	<!--MOTOR CONTROLLER gazebo-->
-    <plugin name="atemr_base_controller" filename="libgazebo_ros_diff_drive.so">
+    <plugin name="base_controller" filename="libgazebo_ros_diff_drive.so">
       <!--robotNamespace>/${robot}</robotNamespace-->
       <updateRate>50</updateRate>
       <alwaysOn>true</alwaysOn>
@@ -168,7 +176,7 @@
       <wheelDiameter>0.108</wheelDiameter>
       <wheelAcceleration>0.0</wheelAcceleration>
       <wheelTorque>17</wheelTorque>
-      <commandTopic>cmd_vel</commandTopic>
+      <commandTopic>base_controller/cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
@@ -319,19 +327,19 @@
 	  <sensor type="ray" name="rplidar_sensor">
 		  <pose>0 0 0 0 0 0</pose>
 			<visualize>false</visualize>
-			<update_rate>10</update_rate>
+			<update_rate>11.5</update_rate>
 			<ray>
 			  <scan>
 				  <horizontal>
-					  <samples>720</samples>
+					  <samples>360</samples>
 						<resolution>0.9</resolution>
-						<min_angle>0.0</min_angle>
-						<max_angle>6.28319</max_angle>
+						<min_angle>0.01745334453880787</min_angle>
+						<max_angle>6.2831854820251465</max_angle>
 					</horizontal>
 				</scan>
 				<range>
-				  <min>0.085</min>
-					<max>6.0</max>
+				  <min>0.15000000596046448</min>
+					<max>12.0</max>
 					<resolution>0.01</resolution>
 				</range>
 				<noise>
@@ -341,54 +349,54 @@
 				</noise>
 			</ray>
 			<plugin name="gazebo_rplidar_controller" filename="libgazebo_ros_laser.so">
-			  <topicName>/${robot}/laser/scan</topicName>
+			  <topicName>/${robot}/scan</topicName>
 				<frameName>rplidar</frameName>
 			</plugin>
 		</sensor>
 	</gazebo>
 	<!--REALENSE CAMERA Sensor gazebo-->
-	<gazebo reference="realsense_camera">
-	  <sensor type="depth" name="rs_cam">
+	<gazebo reference="camera_bottom_screw_frame"> <!-- link name-->
+	  <sensor name="d415_camera" type="depth">
 		  <update_rate>20.0</update_rate>
-			<camera name="headcamera">
-			  <!--horizontal_fov>1.22173</horizontal_fov-->
+			<camera>
+			  <horizontal_fov>1.204280</horizontal_fov>
 				<image>
-				  <width>480</width>
-					<height>270</height>
+				  <width>640</width>
+					<height>480</height>
 					<format>R8G8B8</format>
 				</image>
 				<clip>
 				  <near>0.05</near>
-					<far>30</far>
+					<far>3</far>
 				</clip>
 				<noise>
 				  <type>gaussian</type>
 					<mean>0.0</mean>
-					<stddev>0.003</stddev>
+					<stddev>0.0003</stddev>
 				</noise>
 			</camera>
-			<plugin name="kinect" filename="libgazebo_ros_openni_kinect.so">
+			<plugin name="d415_camera_controller" filename="libgazebo_ros_openni_kinect.so">
 			  <baseline>0.055</baseline>
 				<alwaysOn>true</alwaysOn>
-				<updateRate>0.0</updateRate>
-				<cameraName>headcamera</cameraName>
-				<imageTopicName>/${robot}/rs_cam/color/image_raw</imageTopicName>
-				<cameraInfoTopicName>/${robot}/rs_cam/color/camera_info</cameraInfoTopicName>
-				<depthImageTopicName>/${robot}/rs_cam/depth/image_raw</depthImageTopicName>
-				<depthImageCameraInfoTopicName>/${robot}/rs_cam/depth/camera_info</depthImageCameraInfoTopicName>
-				<pointCloudTopicName>/${robot}/rs_cam/depth/points</pointCloudTopicName>
-				<frameName>realsense_depth_camera</frameName>
+				<updateRate>1.0</updateRate>
+				<cameraName>${camera_name}_ir</cameraName>
+				<imageTopicName>/${robot}/${camera_name}/color/image_raw</imageTopicName>
+				<cameraInfoTopicName>/${robot}/${camera_name}/color/camera_info</cameraInfoTopicName>
+				<depthImageTopicName>/${robot}/${camera_name}/depth/image_raw</depthImageTopicName>
+				<depthImageCameraInfoTopicName>/${robot}/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
+				<pointCloudTopicName>/${robot}/${camera_name}/depth/points</pointCloudTopicName>
+				<frameName>camera_depth_optical_frame</frameName>
 				<pointCloudCutoff>0.5</pointCloudCutoff>
 				<pointCloudCutoffMax>3.0</pointCloudCutoffMax>
-				<distortionK1>0</distortionK1>
-				<distortionK2>0</distortionK2>
-				<distortionK3>0</distortionK3>
-				<distortionT1>0</distortionT1>
-				<distortionT2>0</distortionT2>
+				<distortionK1>0.00000001</distortionK1>
+				<distortionK2>0.00000001</distortionK2>
+				<distortionK3>0.00000001</distortionK3>
+				<distortionT1>0.00000001</distortionT1>
+				<distortionT2>0.00000001</distortionT2>
 				<CxPrime>0</CxPrime>
 				<Cx>0</Cx>
 				<Cy>0</Cy>
-				<!--focalLength>0.00188</focalLength-->
+				<focalLength>465.601485</focalLength> <!-- 0.0 -->
 				<hackBaseline>0</hackBaseline>
 			</plugin>
 		</sensor>

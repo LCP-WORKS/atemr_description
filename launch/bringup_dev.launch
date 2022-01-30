@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="camera">
+    <!--node pkg="tf" type="static_transform_publisher" name="laser_broadcaster"
+        args="0 0 0 0 0 0 map laser 10" />
+    <node pkg="tf" type="static_transform_publisher" name="camera_broadcaster"
+        args="-3 0 3 1.57 3.14 1.1 base_link camera_color_optical_frame 10" />
+    <node name="camera_info" pkg="rostopic" type="rostopic"
+        args="pub /camera/color/camera_info sensor_msgs/CameraInfo
+       '{header: {seq: 0, stamp: {secs: 0, nsecs: 0}, frame_id: 'camera_color_optical_frame'},
+        height: 480, width: 640, distortion_model: 'plumb_bob',
+        D: [0.0, 0.0, 0.0, 0.0, 0.0],
+        K: [619.5087280273438, 0.0, 318.96875, 0.0, 618.8969116210938, 243.85382080078125, 0.0, 0.0, 1.0],
+        R: [1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+        P: [619.5087280273438, 0.0, 318.96875, 0.0, 0.0, 618.8969116210938, 243.85382080078125, 0.0, 0.0, 0.0, 1.0, 0.0],
+        binning_x: 0, binning_y: 0,
+        roi: {x_offset: 0, y_offset: 0, height: 0, width: 0, do_rectify: false}}' -r 2"
+        output="screen"/>
+
+    <node pkg="image_transport" type="republish" name="republish_image" output="screen"
+       args="raw in:=/camera/color/image_raw
+            compressed out:=/camera/color/image_raw">
+    </node-->
+  </group>
+
+  <!--param name="robot_description"
+       command="$(find xacro)/xacro '$(find atemr_description)/urdf/robot.urdf.xacro'"/>
+  <arg name="sim_time" default="true"/>
+  <rosparam param="use_sim_time" subst_value="True">$(arg sim_time)</rosparam>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find atemr_description)/rviz/atemr.rviz"/>
+  <!--
+  cd ~/Downloads/ATEMR-db/wifi_rosbags
+  rosparam set /use_sim_time true
+  rosbag play __clock -l b14test1.bag __topic /scan /tf
+  -->
+</launch>
