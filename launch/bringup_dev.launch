@@ -29,7 +29,7 @@
   <rosparam param="use_sim_time" subst_value="True">$(arg sim_time)</rosparam>
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen"/>
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/-->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find atemr_description)/rviz/atemr.rviz"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find atemr_description)/rviz/atemr_nav.rviz"/>
   <!--
   cd ~/Downloads/ATEMR-db/wifi_rosbags
   rosparam set /use_sim_time true
